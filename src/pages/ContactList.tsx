@@ -8,7 +8,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Fab
+  Fab,
+  Box,
 } from '@material-ui/core';
 import {createStyles, Theme, makeStyles} from '@material-ui/core/styles';
 import {Delete, Edit, Add} from '@material-ui/icons';
@@ -35,15 +36,16 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 15,
     },
   }),
-);
+)
 
 const ContactList: React.FC = () => {
   const db = firebase.database()
   const classes = useStyles()
   const [contacts, setContacts] = useState<ContactInterface[]>([])
   const [contact, setContact] = useState<ContactInterface>(emptyContactDto)
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
 
   const fetchContactList = () => {
     const db = firebase.database()
@@ -62,11 +64,16 @@ const ContactList: React.FC = () => {
     });
   }
 
-  const handleDialogClose = () => setIsDialogOpen(false)
+  const handleDialogClose = () => {
+    setIsEditMode(false)
+    setContact(emptyContactDto)
+    setIsDialogOpen(false)
+  }
 
   const handleDialogEdit = async (event: React.MouseEvent, contact: ContactInterface) => {
     event.preventDefault()
     setContact(contact)
+    setIsEditMode(true)
     setIsDialogOpen(true)
   }
 
@@ -102,12 +109,16 @@ const ContactList: React.FC = () => {
         {listItems}
       </List>
       <Fab color="secondary" aria-label="add" className={classes.fabButton} onClick={() => handleDialogAdd()}>
-        <Add />
+        <Add/>
       </Fab>
       {isDialogOpen && <Dialog open={isDialogOpen} onClose={handleDialogClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Create / edit contact</DialogTitle>
-          <DialogContent>
-              <ContactForm contact={contact}/>
+          <DialogTitle id="form-dialog-title">
+              <Box textAlign="center">
+                {isEditMode ? "Edit contact" : "Create contact"}
+              </Box>
+          </DialogTitle>
+          <DialogContent dividers>
+              <ContactForm contact={contact} onClose={handleDialogClose}/>
           </DialogContent>
       </Dialog>}
       {loading && <Preloader/>}

@@ -2,16 +2,26 @@ import React, {useState} from "react";
 import firebase from "firebase";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {TextField, Button, Grid} from '@material-ui/core';
-import {Save} from '@material-ui/icons';
+import {TextField, Grid, Button} from '@material-ui/core';
 import {ContactInterface} from "../types/contact";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 
 interface ContactFormProps {
   contact: ContactInterface
+  onClose(): void
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({contact}) => {
+const useStyles = makeStyles(() =>
+  createStyles({
+    btnBox: {
+      marginTop: 15,
+    },
+  }),
+)
+
+const ContactForm: React.FC<ContactFormProps> = ({contact, onClose}) => {
   const db = firebase.database()
+  const classes = useStyles()
   const [name, setName] = useState<string>(contact.name)
   const [phone, setPhone] = useState<string>(contact.phone)
   const errorNotification = (notification: string) => toast.error(notification);
@@ -60,16 +70,14 @@ const ContactForm: React.FC<ContactFormProps> = ({contact}) => {
             <TextField id="phone" label="Phone number" fullWidth={true} value={phone} onChange={changePhoneHandler}/>
           </Grid>
         </Grid>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          size="large"
-          startIcon={<Save />}
-        >
-          Save and submit
-        </Button>
-        <Button variant="contained" size="large">Default</Button>
+        <Grid container direction="row" justify="flex-end" alignItems="center" className={classes.btnBox}>
+          <Button autoFocus color="primary" type="submit">
+            Submit
+          </Button>
+          <Button color="secondary" onClick={onClose}>
+            Close
+          </Button>
+        </Grid>
       </form>
     </>
   )

@@ -2,7 +2,7 @@ import React from "react";
 
 const Root: React.FC = () => {
   return (
-    <div>Some text</div>
+    <h1>Just page :)</h1>
   )
 }
 
