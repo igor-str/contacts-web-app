@@ -4,12 +4,13 @@ import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import {routeList} from "./router"
 import {RouteInterface} from "./types/router";
+import {Grid} from '@material-ui/core';
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Navbar/>
-      <div className="container">
+      <Grid>
         <Switch>
           {
             routeList.map((route: RouteInterface, index: number) => {
@@ -17,7 +18,7 @@ const App: React.FC = () => {
             })
           }
         </Switch>
-      </div>
+      </Grid>
     </BrowserRouter>
   );
 }

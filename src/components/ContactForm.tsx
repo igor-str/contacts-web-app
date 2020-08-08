@@ -2,11 +2,18 @@ import React, {useState} from "react";
 import firebase from "firebase";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {TextField, Button, Grid} from '@material-ui/core';
+import {Save} from '@material-ui/icons';
+import {ContactInterface} from "../types/contact";
 
-const ContactForm: React.FC = () => {
-  const [name, setName] = useState<string>('')
-  const [phone, setPhone] = useState<string>('')
+interface ContactFormProps {
+  contact: ContactInterface
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({contact}) => {
   const db = firebase.database()
+  const [name, setName] = useState<string>(contact.name)
+  const [phone, setPhone] = useState<string>(contact.phone)
   const errorNotification = (notification: string) => toast.error(notification);
   const successNotification = (notification: string) => toast.success(notification);
 
@@ -19,6 +26,7 @@ const ContactForm: React.FC = () => {
 
     if (!name.trim() || !phone.trim()) {
       errorNotification('oops... all values must be filled!')
+      return
     }
 
     const response = await db.ref('contacts').push({
@@ -40,25 +48,30 @@ const ContactForm: React.FC = () => {
   }
 
   return (
-    <div className="row">
+    <>
       <ToastContainer />
-      <form className="col s12" onSubmit={sendForm}>
+      <form noValidate autoComplete="off" onSubmit={sendForm}>
         <h3 className="indigo-text center-align">Add new contact</h3>
-        <div className="row">
-          <div className="input-field col s6">
-            <i className="material-icons prefix">account_circle</i>
-            <input id="icon_prefix" type="text" className="validate" value={name} onChange={changeNameHandler}/>
-            <label htmlFor="icon_prefix" className="active">First Name</label>
-          </div>
-          <div className="input-field col s6">
-            <i className="material-icons prefix">phone</i>
-            <input id="icon_telephone" type="tel" className="validate" value={phone} onChange={changePhoneHandler}/>
-            <label htmlFor="icon_telephone" className="active">Telephone</label>
-          </div>
-        </div>
-        <button className="waves-effect indigo btn-large" type={"submit"}>Submit</button>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField id="name" label="Name" fullWidth={true} value={name} onChange={changeNameHandler}/>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField id="phone" label="Phone number" fullWidth={true} value={phone} onChange={changePhoneHandler}/>
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<Save />}
+        >
+          Save and submit
+        </Button>
+        <Button variant="contained" size="large">Default</Button>
       </form>
-    </div>
+    </>
   )
 }
 

@@ -1,10 +1,10 @@
 import {RouteInterface, RoutePathEnum} from "../types/router";
-import ContactForm from "../components/ContactForm";
-import ContactList from "../components/ContactList";
+import ContactList from "../pages/ContactList";
+import Root from "../pages/Root";
 
 export const routeList: RouteInterface[] = [
   {
-    component: ContactForm,
+    component: Root,
     path: RoutePathEnum.root,
     exact: true
   },

@@ -1,18 +1,36 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {RoutePathEnum} from "../types/router";
+import {AppBar, Toolbar, IconButton, Button} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    link: {
+      color: theme.palette.common.white,
+      textDecoration: 'none'
+    },
+  }),
+)
 
 const Navbar: React.FC = () => {
+  const classes = useStyles()
+
   return (
-    <nav className="row">
-      <div className="nav-wrapper col s12 indigo">
-        <NavLink to={RoutePathEnum.root} className="brand-logo">Contacts app</NavLink>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li><NavLink to={RoutePathEnum.root}>Create new contact</NavLink></li>
-          <li><NavLink to={RoutePathEnum.contactList}>Contacts list</NavLink></li>
-        </ul>
-      </div>
-    </nav>
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton edge="start" color="inherit" aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+        <Button color="inherit">
+          <NavLink to={RoutePathEnum.root} className={classes.link}>Root</NavLink>
+        </Button>
+        <Button color="inherit">
+          <NavLink to={RoutePathEnum.contactList} className={classes.link}>Contacts list</NavLink>
+        </Button>
+      </Toolbar>
+    </AppBar>
   )
 }
 

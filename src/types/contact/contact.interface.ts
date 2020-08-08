@@ -3,3 +3,11 @@ export interface ContactInterface {
   phone: string
   key: string
 }
+
+export const emptyContactDto = ():ContactInterface => {
+  return {
+    name: '',
+    phone: '',
+    key: ''
+  }
+}
