@@ -31,11 +31,22 @@ const ContactForm: React.FC<ContactFormProps> = ({contact, onClose}) => {
 
   const changePhoneHandler = (event: React.ChangeEvent<HTMLInputElement>) => (setPhone(event.target.value))
 
+  const isPhoneNumberValid = (phone: string): boolean => {
+    const regEx = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s./0-9]*$/g
+
+    return regEx.test(phone)
+  }
+
   const sendForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!name.trim() || !phone.trim()) {
       errorNotification('oops... all values must be filled!')
+      return
+    }
+
+    if (!isPhoneNumberValid(phone)) {
+      errorNotification('phone number must be correct!')
       return
     }
 
@@ -50,6 +61,7 @@ const ContactForm: React.FC<ContactFormProps> = ({contact, onClose}) => {
 
     successNotification(`contact ${name} was created!`)
     clearFormFields()
+    onClose()
   }
 
   const clearFormFields = () => {
