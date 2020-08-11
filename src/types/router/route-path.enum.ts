@@ -1,4 +1,4 @@
 export enum RoutePathEnum {
   root = '/',
-  contactList = '/contact-list'
+  about = '/about'
 }

@@ -1,16 +1,16 @@
 import {RouteInterface, RoutePathEnum} from "../types/router";
 import ContactList from "../pages/ContactList";
-import Root from "../pages/Root";
+import About from "../pages/About";
 
 export const routeList: RouteInterface[] = [
   {
-    component: Root,
-    path: RoutePathEnum.root,
+    component: About,
+    path: RoutePathEnum.about,
     exact: true
   },
   {
     component: ContactList,
-    path: RoutePathEnum.contactList,
+    path: RoutePathEnum.root,
     exact: true
   }
 ]

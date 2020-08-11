@@ -24,10 +24,10 @@ const Navbar: React.FC = () => {
           <MenuIcon />
         </IconButton>
         <Button color="inherit">
-          <NavLink to={RoutePathEnum.root} className={classes.link}>Root</NavLink>
+          <NavLink to={RoutePathEnum.root} className={classes.link}>Contacts list</NavLink>
         </Button>
         <Button color="inherit">
-          <NavLink to={RoutePathEnum.contactList} className={classes.link}>Contacts list</NavLink>
+          <NavLink to={RoutePathEnum.about} className={classes.link}>About</NavLink>
         </Button>
       </Toolbar>
     </AppBar>

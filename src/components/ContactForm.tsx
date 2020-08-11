@@ -73,7 +73,6 @@ const ContactForm: React.FC<ContactFormProps> = ({contact, onClose}) => {
     <>
       <ToastContainer />
       <form noValidate autoComplete="off" onSubmit={sendForm}>
-        <h3 className="indigo-text center-align">Add new contact</h3>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField id="name" label="Name" fullWidth={true} value={name} onChange={changeNameHandler}/>
